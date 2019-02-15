@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Inject} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
   title = 'angular-docker';
+  language: string;
+
+  constructor(@Inject('DEFAULT_LANGUAGE') private defaultLanguage: string) {
+    this.language = defaultLanguage;
+  }
 }

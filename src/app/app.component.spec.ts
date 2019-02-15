@@ -1,12 +1,21 @@
-import { TestBed, async } from '@angular/core/testing';
-import { AppComponent } from './app.component';
+import {async, TestBed} from '@angular/core/testing';
+import {AppComponent} from './app.component';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('AppComponent', () => {
+  const defaultLanguageMock = 'en';
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule
+      ],
       declarations: [
         AppComponent
       ],
+      providers: [
+        {provide: 'DEFAULT_LANGUAGE', useValue: defaultLanguageMock}
+      ]
     }).compileComponents();
   }));
 
@@ -27,5 +36,11 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('h1').textContent).toContain('Welcome to angular-docker!');
+  });
+
+  it('should have default language initialised', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    expect(app.language).toEqual(defaultLanguageMock);
   });
 });
