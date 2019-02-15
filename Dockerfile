@@ -1,5 +1,4 @@
-# --- Build ----
-FROM gmathieu/node-browsers:2.0.0 AS build
+FROM gmathieu/node-browsers:3.0.0 AS build
 
 COPY package.json /usr/angular-workdir/
 WORKDIR /usr/angular-workdir
@@ -8,7 +7,7 @@ RUN npm install
 COPY ./ /usr/angular-workdir
 RUN npm run build
 
-FROM nginx:1.14-alpine
+FROM nginx:1.15.8-alpine
 
 ## Remove default nginx website
 RUN rm -rf /usr/share/nginx/html/*
