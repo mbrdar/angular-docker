@@ -16,8 +16,11 @@ COPY ./dev/nginx.conf /etc/nginx/nginx.conf
 
 COPY --from=build  /usr/angular-workdir/dist/angular-docker /usr/share/nginx/html
 
-RUN echo "mainFileName=\"\$(ls /usr/share/nginx/html/main*.js)\" && \
-          envsubst '\$BACKEND_API_URL \$DEFAULT_LANGUAGE ' < \${mainFileName} > main.tmp && \
-          mv main.tmp \${mainFileName} && nginx -g 'daemon off;'" > run.sh
+RUN echo "for mainFileName in /usr/share/nginx/html/main*.js ;\
+            do \
+              envsubst '\$BACKEND_API_URL \$DEFAULT_LANGUAGE ' < \$mainFileName > main.tmp ;\
+              mv main.tmp \${mainFileName} ;\
+            done \
+            && nginx -g 'daemon off;'" > run.sh
 
 ENTRYPOINT ["sh", "run.sh"]
